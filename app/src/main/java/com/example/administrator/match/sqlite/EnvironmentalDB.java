@@ -8,7 +8,7 @@ public class EnvironmentalDB extends SQLiteOpenHelper{
 
 
     public static final String TABLENAME="environmental";
-    public static final String dbName="info.db";
+    public static final String dbName="info";
 
     public EnvironmentalDB(Context context) {
         super(context, dbName, null, 1);

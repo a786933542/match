@@ -59,9 +59,15 @@ public class Fragment_environment extends Fragment{
 
     private EnvironmentalBean bean=new EnvironmentalBean();
 
+    private LocalBroadcastManager broadcastManager;
+    private IntentFilter intentFilter;
+    private BroadcastReceiver mReceiver;
+
+
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_environment,null);
 
         gridView=view.findViewById(R.id.gridview);
@@ -71,9 +77,19 @@ public class Fragment_environment extends Fragment{
         gridView.setOnItemClickListener(listener);
 
 
-        IntentFilter intentFilter=new IntentFilter();
+        intentFilter=new IntentFilter();
         intentFilter.addAction("com.example.environmental");
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new MyReceiver(),intentFilter);
+        broadcastManager= LocalBroadcastManager.getInstance(getActivity());
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String data=intent.getStringExtra("environmental_data");
+                Log.e("data",data);
+                getData(data);
+            }
+        };
+        broadcastManager.registerReceiver(mReceiver,intentFilter);
+
         return view;
     }
 
@@ -83,15 +99,6 @@ public class Fragment_environment extends Fragment{
         }
     };
 
-    private class MyReceiver extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-                String data=intent.getStringExtra("environmental_data");
-                Log.e("data",data);
-                getData(data);
-        }
-    }
     private void getData(String data){
         EnvironmentalBean envir=new Gson().fromJson(data,EnvironmentalBean.class);
         bean.setStatus(envir.getStatus());

@@ -1,6 +1,7 @@
 package com.example.administrator.match.activity;
 
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,8 @@ import com.example.administrator.match.fragment.AccountPaymentSecurity;
 import com.example.administrator.match.fragment.BillingManageFragment;
 import com.example.administrator.match.fragment.BusInfoQuery;
 import com.example.administrator.match.fragment.CarSpaceQuery;
-import com.example.administrator.match.fragment.SetCarAccountRechargeFragment;
+import com.example.administrator.match.fragment.CarSpeed;
+import com.example.administrator.match.fragment.CarSpeedAndAccountFragment;
 import com.example.administrator.match.fragment.Fragment_busquery;
 import com.example.administrator.match.fragment.Fragment_environment;
 import com.example.administrator.match.fragment.Fragment_environment_histoty;
@@ -37,10 +39,12 @@ import com.example.administrator.match.fragment.Fragment_trafficquery;
 import com.example.administrator.match.fragment.Fragment_traveladvice;
 import com.example.administrator.match.fragment.Fragment_vehiclerestrictions;
 import com.example.administrator.match.fragment.PeopleCarControlAndManage;
-import com.example.administrator.match.fragment.CarSpeedAndAccountFragment;
+import com.example.administrator.match.fragment.SetCarAccountRechargeFragment;
 import com.example.administrator.match.fragment.TrafficRoadStatusQuery;
+import com.example.administrator.match.services.EnvironmentalService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction transaction;
 
     private Intent intent;
+    private ServiceConnection connection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +69,8 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 启动服务，实时更新数据
          */
-       /* intent=new Intent(this, EnvironmentalService.class);
-        startService(intent);*/
-
+        intent=new Intent(this, EnvironmentalService.class);
+        startService(intent);
         fragmentManager=getSupportFragmentManager();
         findviews();
 
@@ -101,34 +105,61 @@ public class MainActivity extends AppCompatActivity {
                         transaction.replace(R.id.frame,list.get(2));
                         break;
                     case R.id.item4:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(3));
                         break;
                     case R.id.item5:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(4));
                         break;
                     case R.id.item6:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(5));
                         break;
                     case R.id.item7:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(6));
                         break;
                     case R.id.item8:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(7));
                         break;
                     case R.id.item9:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(8));
                         break;
                     case R.id.item10:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(9));
                         break;
                     case R.id.item11:
-                        transaction.replace(R.id.frame,list.get(2));
+                        transaction.replace(R.id.frame,list.get(10));
+                        break;
+                    case R.id.item12:
+                        transaction.replace(R.id.frame,list.get(11));
+                        break;
+                    case R.id.item13:
+                        transaction.replace(R.id.frame,list.get(12));
+                        break;
+                    case R.id.item14:
+                        transaction.replace(R.id.frame,list.get(13));
+                        break;
+                    case R.id.item15:
+                        transaction.replace(R.id.frame,list.get(14));
+                        break;
+                    case R.id.item16:
+                        transaction.replace(R.id.frame,list.get(15));
                         break;
                     case R.id.item17:
                         transaction.replace(R.id.frame,list.get(16));
                         break;
                     case R.id.item18:
                         transaction.replace(R.id.frame,list.get(17));
+                        break;
+                    case R.id.item19:
+                        transaction.replace(R.id.frame,list.get(18));
+                        break;
+                    case R.id.item20:
+                        transaction.replace(R.id.frame,list.get(19));
+                        break;
+                    case R.id.item21:
+                        transaction.replace(R.id.frame,list.get(20));
+                        break;
+                    case R.id.item22:
+                        transaction.replace(R.id.frame,list.get(21));
                         break;
                 }
                 transaction.commit();
@@ -149,9 +180,9 @@ public class MainActivity extends AppCompatActivity {
 
         //胡锟
         list.add(new BillingManageFragment());//账单管理
+        list.add(new CarSpeedAndAccountFragment());//小车账户阈值
+        list.add(new CarSpeed());
         list.add(new SetCarAccountRechargeFragment());
-        list.add(new CarSpeedAndAccountFragment());
-        list.add(new CarSpeedAndAccountFragment());
         list.add(new BusInfoQuery());
         list.add(new TrafficRoadStatusQuery());
         list.add(new CarSpaceQuery());

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class EnvironmentalService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
+                    Log.e("url","http://"+ip+":"+port+"/transportservice/type/jason/action/GetAllSense.do");
                     netUntil.getData("{}","http://"+ip+":"+port+"/transportservice/type/jason/action/GetAllSense.do",handler);
                     handler.sendEmptyMessageDelayed(0,5000);
                     break;
@@ -72,6 +74,8 @@ public class EnvironmentalService extends Service {
             }
         }
     };
+
+
 
     EnvironmentalBean bean;
     private void setJson(String result){
@@ -97,11 +101,10 @@ public class EnvironmentalService extends Service {
                     Intent intent=new Intent();
                     intent.setAction("com.example.environmental");
                     intent.putExtra("environmental_data",new Gson().toJson(bean));
-                    sendBroadcast(intent);
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 }
                 Log.e("list",""+beans.size());
                 calculationAvg();
-
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -130,14 +133,13 @@ public class EnvironmentalService extends Service {
 
     private void insertDB(int pm, int co2, int lightIntensity, int humidity, int temperature, int status) {
         if(database.isOpen()){
-
-            Cursor cursor= database.query(EnvironmentalDB.dbName,null,null,null,null,null,null);
+            Cursor cursor= database.query(EnvironmentalDB.TABLENAME,null,null,null,null,null,null);
             Log.e("cursor",cursor.getCount()+"");
-            if(cursor.getCount()==5){
+            if(cursor!=null && cursor.getCount()==5){
                 cursor.moveToNext();
                 String time=cursor.getString(6);
                 Log.e("createData",time);
-                database.delete(EnvironmentalDB.dbName,"createDate",new String[]{time});
+                database.delete(EnvironmentalDB.TABLENAME,"createDate=?",new String[]{time});
             }
             cursor.close();
             EnvironmentalBean environmentalBean=new EnvironmentalBean(pm/12,co2/12, lightIntensity /12,humidity/12,temperature/12, status /12);
