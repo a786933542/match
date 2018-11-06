@@ -23,8 +23,7 @@ import com.example.administrator.match.fragment.AccountPaymentSecurity;
 import com.example.administrator.match.fragment.BillingManageFragment;
 import com.example.administrator.match.fragment.BusInfoQuery;
 import com.example.administrator.match.fragment.CarSpaceQuery;
-import com.example.administrator.match.fragment.CarSpeed;
-import com.example.administrator.match.fragment.CarSpeedAndAccountFragment;
+import com.example.administrator.match.fragment.SetCarAccountRechargeFragment;
 import com.example.administrator.match.fragment.Fragment_busquery;
 import com.example.administrator.match.fragment.Fragment_environment;
 import com.example.administrator.match.fragment.Fragment_environment_histoty;
@@ -38,12 +37,10 @@ import com.example.administrator.match.fragment.Fragment_trafficquery;
 import com.example.administrator.match.fragment.Fragment_traveladvice;
 import com.example.administrator.match.fragment.Fragment_vehiclerestrictions;
 import com.example.administrator.match.fragment.PeopleCarControlAndManage;
-import com.example.administrator.match.fragment.SetCarAccountRechargeFragment;
+import com.example.administrator.match.fragment.CarSpeedAndAccountFragment;
 import com.example.administrator.match.fragment.TrafficRoadStatusQuery;
-import com.example.administrator.match.services.EnvironmentalService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 启动服务，实时更新数据
          */
-        intent=new Intent(this, EnvironmentalService.class);
-        startService(intent);
+        /*intent=new Intent(this, EnvironmentalService.class);
+        startService(intent);*/
 
         fragmentManager=getSupportFragmentManager();
         findviews();
@@ -146,9 +143,9 @@ public class MainActivity extends AppCompatActivity {
 
         //胡锟
         list.add(new BillingManageFragment());//账单管理
-        list.add(new CarSpeedAndAccountFragment());//小车账户阈值
-        list.add(new CarSpeed());
         list.add(new SetCarAccountRechargeFragment());
+        list.add(new CarSpeedAndAccountFragment());
+        list.add(new CarSpeedAndAccountFragment());
         list.add(new BusInfoQuery());
         list.add(new TrafficRoadStatusQuery());
         list.add(new CarSpaceQuery());

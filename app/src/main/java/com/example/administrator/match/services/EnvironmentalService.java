@@ -73,8 +73,6 @@ public class EnvironmentalService extends Service {
         }
     };
 
-
-
     EnvironmentalBean bean;
     private void setJson(String result){
         try {
