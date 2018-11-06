@@ -129,7 +129,7 @@ public class Fragment_trafficquery extends android.support.v4.app.Fragment {
                 }
             }
             i+=1;
-            myhandler.postDelayed(this,10000);
+            myhandler.postDelayed(this,5000);
         }
     };
 /*初始化*/
