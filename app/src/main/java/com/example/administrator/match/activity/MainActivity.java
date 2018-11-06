@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 启动服务，实时更新数据
          */
-        /*intent=new Intent(this, EnvironmentalService.class);
+       /* intent=new Intent(this, EnvironmentalService.class);
         startService(intent);*/
 
         fragmentManager=getSupportFragmentManager();
@@ -123,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.item11:
                         transaction.replace(R.id.frame,list.get(2));
+                        break;
+                    case R.id.item17:
+                        transaction.replace(R.id.frame,list.get(16));
+                        break;
+                    case R.id.item18:
+                        transaction.replace(R.id.frame,list.get(17));
                         break;
                 }
                 transaction.commit();
