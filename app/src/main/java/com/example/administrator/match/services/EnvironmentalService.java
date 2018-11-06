@@ -3,17 +3,19 @@ package com.example.administrator.match.services;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.example.administrator.match.adapter.EnvirAdapter;
+import com.example.administrator.match.sqlite.EnvironmentalDB;
 import com.example.administrator.match.domain.EnvironmentalBean;
 import com.example.administrator.match.until.CacheUntil;
 import com.example.administrator.match.until.NetUntil;
-import com.example.administrator.match.until.SQL_Environmental;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +30,7 @@ public class EnvironmentalService extends Service {
     private String ip;
     private String port;
     private NetUntil netUntil;
-    private EnvirAdapter envirAdapter;
-    private SQL_Environmental sql_environmental;
+    private EnvironmentalDB sql_environmental;
     private SQLiteDatabase database;
     public EnvironmentalService() {
     }
@@ -37,8 +38,19 @@ public class EnvironmentalService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        ip= CacheUntil.getString(this,"url","192.168.1.101");
+        ip= CacheUntil.getString(this,"ip","192.168.1.101");
         port=CacheUntil.getString(this,"port","8080");
+        netUntil=new NetUntil();
+        sql_environmental=new EnvironmentalDB(this);
+        database= sql_environmental.getWritableDatabase();
+        handler.sendEmptyMessage(0);
+        Toast.makeText(this, "服务已开启,当前IP为"+ip+";端口号为"+port, Toast.LENGTH_SHORT).show();
+        Log.e("services","onCreate");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -52,15 +64,9 @@ public class EnvironmentalService extends Service {
             switch (msg.what){
                 case 0:
                     netUntil.getData("{}","http://"+ip+":"+port+"/transportservice/type/jason/action/GetAllSense.do",handler);
-                    Message message= handler.obtainMessage();
-                    message.what=0;
-                    handler.sendMessageDelayed(message,5000);
-                    break;
-                case 1:
-                    envirAdapter.notifyDataSetChanged();
+                    handler.sendEmptyMessageDelayed(0,5000);
                     break;
                 case NetUntil.NET_GETDATA:
-                    //beans.add()
                     setJson(msg.obj.toString());
                     break;
             }
@@ -69,13 +75,14 @@ public class EnvironmentalService extends Service {
 
 
 
-    EnvironmentalBean bean =new EnvironmentalBean();
+    EnvironmentalBean bean;
     private void setJson(String result){
         try {
             String serverinfo= new JSONObject(result).getString("serverinfo");
             JSONObject info= new JSONObject(serverinfo);
             Message message=handler.obtainMessage();
             if(info.isNull("Status")){
+                bean=new EnvironmentalBean();
                 bean.setLightIntensity(info.getInt("LightIntensity"));
                 bean.setHumidity(info.getInt("humidity"));
                 bean.setTemperature(info.getInt("temperature"));
@@ -87,8 +94,14 @@ public class EnvironmentalService extends Service {
                 message.what=1;
                 message.obj=bean;
                 handler.sendMessage(message);
-
-                beans.add(bean);
+                if(bean!=null){
+                    beans.add(bean);
+                    Intent intent=new Intent();
+                    intent.setAction("com.example.environmental");
+                    intent.putExtra("environmental_data",new Gson().toJson(bean));
+                    sendBroadcast(intent);
+                }
+                Log.e("list",""+beans.size());
                 calculationAvg();
 
             }
@@ -112,11 +125,26 @@ public class EnvironmentalService extends Service {
                 humidity+=bean.getHumidity();
                 temperature+=bean.getTemperature();
             }
-            if(database.isOpen()){
-                Long l=database.insert(SQL_Environmental.TABLENAME,null,getContentValues(new EnvironmentalBean(pm/12,co2/12,LightIntensity/12,humidity/12,temperature/12,Status/12)));
-                Log.e("eee",l+"");
-            }
+            insertDB(pm, co2, LightIntensity, humidity, temperature, Status);
             beans.clear();
+        }
+    }
+
+    private void insertDB(int pm, int co2, int lightIntensity, int humidity, int temperature, int status) {
+        if(database.isOpen()){
+
+            Cursor cursor= database.query(EnvironmentalDB.dbName,null,null,null,null,null,null);
+            Log.e("cursor",cursor.getCount()+"");
+            if(cursor.getCount()==5){
+                cursor.moveToNext();
+                String time=cursor.getString(6);
+                Log.e("createData",time);
+                database.delete(EnvironmentalDB.dbName,"createDate",new String[]{time});
+            }
+            cursor.close();
+            EnvironmentalBean environmentalBean=new EnvironmentalBean(pm/12,co2/12, lightIntensity /12,humidity/12,temperature/12, status /12);
+            Long l=database.insert(EnvironmentalDB.TABLENAME,null,getContentValues(environmentalBean));
+            Log.e("eee",l+"");
         }
     }
 
@@ -133,4 +161,14 @@ public class EnvironmentalService extends Service {
         values.put("createDate",date);
         return values;
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        if(database!=null){
+            database.close();
+        }
+    }
+
 }

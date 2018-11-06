@@ -1,16 +1,16 @@
-package com.example.administrator.match.until;
+package com.example.administrator.match.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class SQL_Environmental extends SQLiteOpenHelper{
+public class EnvironmentalDB extends SQLiteOpenHelper{
 
 
     public static final String TABLENAME="environmental";
     public static final String dbName="info.db";
 
-    public SQL_Environmental(Context context) {
+    public EnvironmentalDB(Context context) {
         super(context, dbName, null, 1);
     }
 
@@ -34,4 +34,6 @@ public class SQL_Environmental extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+
 }

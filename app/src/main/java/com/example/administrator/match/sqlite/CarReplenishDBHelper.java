@@ -1,4 +1,4 @@
-package com.example.administrator.match.SQLite;
+package com.example.administrator.match.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,4 +24,6 @@ public class CarReplenishDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("ALTER TABLE record ADD COLUMN other STRING");
     }
+
+
 }

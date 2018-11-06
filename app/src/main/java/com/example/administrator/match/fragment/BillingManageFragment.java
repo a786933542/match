@@ -1,11 +1,9 @@
 package com.example.administrator.match.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +16,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.administrator.match.R;
-import com.example.administrator.match.SQLite.CarRecordBean;
-import com.example.administrator.match.SQLite.CarReplenishDBManager;
+import com.example.administrator.match.sqlite.CarRecordBean;
+import com.example.administrator.match.sqlite.CarReplenishDBManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BillingManageActivity extends Fragment {
+public class BillingManageFragment extends Fragment {
 
     private Spinner spinner;
     private Button btn_select;

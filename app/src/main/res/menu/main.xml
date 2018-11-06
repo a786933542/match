@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/account" android:title="账单管理"></item>
-    <item android:id="@+id/car_account" android:title="小车充值"></item>
-    <item android:id="@+id/environment" android:title="环境指标"></item>
-    <item android:id="@+id/select_bus" android:title="公交查询"></item>
-    <item android:id="@+id/light_setting" android:title="红绿灯设置"></item>
-    <item android:id="@+id/car_peccancy" android:title="车辆违章"></item>
-    <item android:id="@+id/select_roads" android:title="路况查询"></item>
-    <item android:id="@+id/data_analysis" android:title="数据分析"></item>
-    <item android:id="@+id/personal" android:title="个人中心"></item>
-    <item android:id="@+id/data_historical" android:title="传感器数据历史记录"></item>
-    <item android:id="@+id/accountThreshold" android:title="账户阈值"></item>
+    <item android:id="@+id/item1" android:title="账单管理"></item>
+    <item android:id="@+id/item2" android:title="小车账户阈值"></item>
+    <item android:id="@+id/item3" android:title="小车速度限制"></item>
+    <item android:id="@+id/item4" android:title="小车账户充值"></item>
+    <item android:id="@+id/item5" android:title="公交车信息查询"></item>
+    <item android:id="@+id/item6" android:title="交通道路状态查询"></item>
+    <item android:id="@+id/item7" android:title="车位查询"></item>
+    <item android:id="@+id/item8" android:title="个人对车辆的控制与管理"></item>
+    <item android:id="@+id/item9" android:title="账户支付安全"></item>
+
+
+
+    <item android:id="@+id/item10" android:title="环境指标"></item>
+    <item android:id="@+id/item11" android:title="红绿灯周期查询"></item>
+    <item android:id="@+id/item12" android:title="传感器数据历史记录"></item>
+    <item android:id="@+id/item13" android:title="环境信息实时查询分析"></item>
+
+    <item android:id="@+id/item14" android:title="路灯设置"></item>
+    <item android:id="@+id/item15" android:title="道路状态"></item>
+    <item android:id="@+id/item16" android:title="红绿灯设置"></item>
+
+
+    <item android:id="@+id/item17" android:title="光照检测"></item>
+    <item android:id="@+id/item18" android:title="路况查询"></item>
+    <item android:id="@+id/item19" android:title="个人中心"></item>
+    <item android:id="@+id/item20" android:title="红绿灯管理"></item>
+    <item android:id="@+id/item21" android:title="公交查询"></item>
+    <item android:id="@+id/item22" android:title="车辆限行"></item>
+
+
 </menu>

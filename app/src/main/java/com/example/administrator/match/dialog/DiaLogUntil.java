@@ -1,4 +1,4 @@
-package com.example.administrator.match.until;
+package com.example.administrator.match.dialog;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.administrator.match.R;
 import com.example.administrator.match.activity.LoginActivity;
+import com.example.administrator.match.until.CacheUntil;
 
 import okhttp3.Cache;
 

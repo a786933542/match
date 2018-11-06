@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.match.R;
-import com.example.administrator.match.until.DiaLogUntil;
+import com.example.administrator.match.dialog.DiaLogUntil;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 

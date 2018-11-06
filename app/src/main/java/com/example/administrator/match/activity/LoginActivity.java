@@ -12,8 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.match.R;
+import com.example.administrator.match.dialog.DiaLogUntil;
 import com.example.administrator.match.until.CacheUntil;
-import com.example.administrator.match.until.DiaLogUntil;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 

@@ -1,4 +1,4 @@
-package com.example.administrator.match.SQLite;
+package com.example.administrator.match.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
